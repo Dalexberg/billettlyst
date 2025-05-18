@@ -1,0 +1,35 @@
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  font-family: sans-serif;
+}
+
+.logo a {
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: black;
+}
+
+.main-nav {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex: 1;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.login-link a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}

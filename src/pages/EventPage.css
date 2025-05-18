@@ -1,0 +1,46 @@
+.event-page {
+  padding: 2rem;
+}
+
+.genres span {
+  margin-right: 0.5rem;
+  display: inline-block;
+  font-size: 0.9rem;
+}
+
+.ticket-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ticket-card {
+  padding: 1rem;
+  max-width: 300px;
+}
+
+.ticket-card img {
+  width: 100%;
+  height: auto;
+}
+
+.ticket-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.ticket-buttons button {
+  background: black;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.artist-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 1rem;
+}
