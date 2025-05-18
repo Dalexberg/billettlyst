@@ -1,9 +1,23 @@
 import './Home.css';
 import { useEffect, useState } from 'react';
 import EventCard from '../components/EventCard';
+import CityEventCard from '../components/CityEventCard';
 
-const festivalNavn = ['Findings', 'NEON', 'Skeikampen', 'Tons of Rock'];
+const festivalIDs = [
+  'Z698xZb_Z16v7eGkFy', // Findings
+  'Z698xZb_Z17q33_',    // NEON
+  'Z698xZb_Z17qfao',    // Skeikampen
+  'Z698xZb_Z17q3qg'     // Tons of Rock
+];
+
 const cityOptions = ['Oslo', 'London', 'Paris', 'Berlin'];
+
+const cityToCountryCode = {
+  Oslo: 'NO',
+  London: 'GB',
+  Paris: 'FR',
+  Berlin: 'DE'
+};
 
 export default function Home() {
   const [festivals, setFestivals] = useState([]);
@@ -13,21 +27,19 @@ export default function Home() {
   const [loadingCity, setLoadingCity] = useState(true);
 
   useEffect(() => {
-    const fetchFestival = async (name) => {
+    const fetchFestival = async (id) => {
       try {
-        const url = `http://localhost:3001/events?keyword=${encodeURIComponent(name)}&countryCode=NO`;
-        const response = await fetch(url);
+        const response = await fetch(`http://localhost:3001/event/${id}`);
         const data = await response.json();
-        const events = data._embedded?.events || [];
-        const match = events.find(e => e.name.toLowerCase().includes(name.toLowerCase()));
-        return match || events[0] || null;
+        console.log(`✅ Fant festival med ID ${id}: ${data.name}`);
+        return data;
       } catch (err) {
-        console.error(`❌ Klarte ikke å hente ${name}:`, err);
+        console.error(`❌ Klarte ikke å hente festival med ID ${id}:`, err);
         return null;
       }
     };
 
-    Promise.all(festivalNavn.map(fetchFestival)).then((results) => {
+    Promise.all(festivalIDs.map(fetchFestival)).then((results) => {
       setFestivals(results.filter(Boolean));
       setLoadingFestivals(false);
     });
@@ -37,7 +49,10 @@ export default function Home() {
     const fetchCityEvents = async () => {
       setLoadingCity(true);
       try {
-        const url = `http://localhost:3001/events?city=${encodeURIComponent(selectedCity)}&size=20`;
+        const API_KEY = import.meta.env.VITE_TM_API_KEY;
+        const countryCode = cityToCountryCode[selectedCity] || 'NO';
+        const url = `http://localhost:3001/events?city=${encodeURIComponent(selectedCity)}&countryCode=${countryCode}&size=20`;
+
         const response = await fetch(url);
         const data = await response.json();
         const events = data._embedded?.events || [];
@@ -63,18 +78,19 @@ export default function Home() {
       ) : (
         <>
           {festivals.length < 4 && (
-            <p style={{ color: 'orange' }}>
-              Fant ikke alle festivalene. Her er de som er tilgjengelig.
+            <p style={{ color: 'red' }}>
+              Fant ikke riktige festivaler
             </p>
           )}
           <div className="festival-grid">
-            {festivals.map(event => (
+            {festivals.map((event, index) => (
               <EventCard
-                key={event.id}
+                key={event.id || `${event.name}-${index}`}
                 event={event}
                 isWishlisted={false}
                 onToggleWishlist={() => {}}
                 showDetails={true}
+                hideMeta={true}
               />
             ))}
           </div>
@@ -82,7 +98,7 @@ export default function Home() {
       )}
 
       <section className="city-events">
-        <h2>I {selectedCity} kan du oppleve:</h2>
+        <h2 className="section-title">Hva skjer i verdens storbyer!</h2>
         <div className="city-buttons">
           {cityOptions.map(city => (
             <button
@@ -95,17 +111,16 @@ export default function Home() {
           ))}
         </div>
 
+        <h2 className="section-title">Hva skjer i {selectedCity}</h2>
+
         {loadingCity ? (
           <p>Laster inn arrangementer i {selectedCity}...</p>
         ) : (
           <div className="festival-grid">
-            {cityEvents.map(event => (
-              <EventCard
-                key={event.id}
+            {cityEvents.map((event, index) => (
+              <CityEventCard
+                key={event.id || `${event.name}-${index}`}
                 event={event}
-                isWishlisted={false}
-                onToggleWishlist={() => {}}
-                showDetails={false}
               />
             ))}
           </div>

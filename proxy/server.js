@@ -1,26 +1,51 @@
-import express from 'express'
-import fetch from 'node-fetch'
-import cors from 'cors'
+import express from 'express';
+import fetch from 'node-fetch';
+import cors from 'cors';
 
-const app = express()
-app.use(cors())
+const app = express();
+app.use(cors());
 
-const API_KEY = 'np0rW3NzhZlG0wDIqJHFkXiW1GmKs3kh'
+const API_KEY = 'np0rW3NzhZlG0wDIqJHFkXiW1GmKs3kh';
 
+// Generell søk (f.eks. etter keyword/by/land)
 app.get('/events', async (req, res) => {
-  const keyword = req.query.keyword || ''
-  const url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${API_KEY}&size=10&keyword=${encodeURIComponent(keyword)}`
+  const { keyword = '', city = '', countryCode = '', size = '10' } = req.query;
+
+  const params = new URLSearchParams({
+    apikey: API_KEY,
+    keyword,
+    city,
+    countryCode,
+    size
+  });
+
+  const url = `https://app.ticketmaster.com/discovery/v2/events.json?${params.toString()}`;
 
   try {
-    const response = await fetch(url)
-    const data = await response.json()
-    res.json(data)
+    const response = await fetch(url);
+    const data = await response.json();
+    res.json(data);
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ error: 'Noe gikk galt ved henting av data.' })
+    console.error('Klarte ikke å hente eventliste:', err);
+    res.status(500).json({ error: 'Noe gikk galt ved henting av data.' });
   }
-})
+});
+
+// Henting av ett enkelt event via ID
+app.get('/event/:id', async (req, res) => {
+  const { id } = req.params;
+  const url = `https://app.ticketmaster.com/discovery/v2/events/${id}.json?apikey=${API_KEY}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error(`Klarte ikke å hente event med ID ${id}:`, err);
+    res.status(500).json({ error: 'Feil ved henting av event.' });
+  }
+});
 
 app.listen(3001, () => {
-  console.log('🎫 Proxy-server kjører på http://localhost:3001')
-})
+  console.log('✅ Proxy-server kjører på http://localhost:3001');
+});

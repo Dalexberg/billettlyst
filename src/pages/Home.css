@@ -30,12 +30,44 @@
 }
 
 .festival-button {
-  background-color: black;
+  background-color: #222;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1.4rem;
   border: none;
+  font-size: 1rem;
   cursor: pointer;
-  font-weight: bold;
-  margin-top: 0.5rem;
+  transition: background-color 0.3s ease;
 }
 
+.festival-button:hover {
+  background-color: #444;
+}
+
+.festival-button.active {
+  outline: 2px solid #888;
+}
+
+.city-buttons {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.city-buttons button {
+  background-color: #222;
+  color: white;
+  padding: 0.8rem 1.4rem;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.city-buttons button:hover {
+  background-color: #444;
+}
+
+.city-buttons button.active {
+  outline: 2px solid #888;
+}
