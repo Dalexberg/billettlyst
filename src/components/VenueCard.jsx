@@ -1,4 +1,3 @@
-import './VenueCard.css';
 import { Heart, HeartIcon } from 'lucide-react';
 
 export default function VenueCard({ venue, isWishlisted, onToggleWishlist }) {

@@ -1,0 +1,75 @@
+Eksamensdokument. Individuell innlevering. 
+
+Jeg har prøvd mitt beste å nå alle kravene til vanskelighetsgrad A
+
+Link til Github repository: https://github.com/Dalexberg/billettlyst
+
+Redegjørelser/forutsetninger:
+Jeg brukte Ticketmaster Discovery API som beskrevet, men sleit med å finne eksakt riktige festivaler som vist i oppgaveteksten / demovideoen. Derfor er det mulig at enkelte arrangementer ikke er 100 % samsvarende.
+
+pga CORS-feil ved direkte API-kall til Ticketmaster, brukte jeg en proxy-løsning for å kunne jobbe med prosjektet lokalt uten feilmeldinger.
+
+Utfordringer:
+Det krevde mye testing og tilpasning med apiID matching for å koble Sanity og data fra Ticketmaster i samme komponent.
+Bildene dukket ikke opp riktig før jeg tok i bruk @sanity/image-url og urlFor().
+Det tok lang tid å få useParams() til å fungere riktig for routing i SanityEventDetails.jsx
+
+Kilder og dokumentasjon:
+Verktøy og rammeverk:
+https://www.sanity.io  Sanity
+https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/ Ticketmaster API
+https://reactrouter.com/en/main react router
+https://lucide.dev/icons/ icons
+
+Stackoverflow:
+
+https://stackoverflow.com/questions/38423108/using-localstorage-with-react hjelp med at siden skal huske at man er logget inn 
+https://stackoverflow.com/questions/74935677/how-to-show-my-image-from-sanity-to-react-app hjelp til å få bildene fra sanity til å vises på siden
+https://stackoverflow.com/questions/71793482/useparams-in-react-router til useParams for å hente id fra URL 
+https://stackoverflow.com/questions/69364075/how-to-async-fetch-data-in-useeffect hente data i useEffect
+
+https://github.com/Dalexberg/RSS_boilerplate Jeg har også brukt tidligere oppgavesvar som kilde
+
+
+BRUK AV AI:
+
+Prompt: Hvordan henter jeg referanser i Sanity med GROQ? Jeg trenger å hente title og apiId fra events som er referert i brukerens ønskeliste
+
+Svar generert av ChatGPT:
+ChatGPT said:
+For å hente title og apiId fra event-referanser i en brukers ønskeliste i Sanity med GROQ, kan du bruke ->-operatoren for å følge referansene. Her er en eksempelspørring:
+
+js
+Copy
+Edit
+*[_type == "user" && name == $username][0]{
+  name,
+  wishlist[]->{
+    title,
+    apiId
+  }
+}
+Forklaring:
+wishlist[]->: Gå gjennom alle referanser i arrayen wishlist, og hent dokumentene de peker på.
+
+{ title, apiId }: Hent spesifikke felter fra hvert referert event-dokument.
+
+Dette gir deg et resultat som ligner:
+
+json
+Copy
+Edit
+{
+  "name": "Ola Nordmann",
+  "wishlist": [
+    { "title": "Coldplay Live", "apiId": "Z698xZb_Z16v7eGkFy" },
+    { "title": "Oslo Jazz", "apiId": "Z698xZb_Z17q3qg" }
+  ]
+}
+Vil du ha en variant som også inkluderer tidligere kjøp på samme måte?
+_____________________________________________________________________________
+Brukt i Dashboard.jsx
+
+Koden skal vise ønskelisten og tidligere kjøp med titel og ID fra events
+Begrunnelse: 
+For å spare tid og unngå/fikse feil i spørringen. Hjelp med GROQ syntaks.

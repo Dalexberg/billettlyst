@@ -12,7 +12,7 @@ export default function TicketmasterEventCard({ apiId }) {
         const data = await response.json();
         setEvent(data);
       } catch (err) {
-        console.error('Feil ved henting av event fra Ticketmaster:', err);
+        console.error('Klarte ikke å hente event fra Ticketmaster:', err);
       }
     };
 

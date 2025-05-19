@@ -4,10 +4,10 @@ import EventCard from '../components/EventCard';
 import CityEventCard from '../components/CityEventCard';
 
 const festivalIDs = [
-  'Z698xZb_Z16v7eGkFy', // Findings
-  'Z698xZb_Z17q33_',    // NEON
-  'Z698xZb_Z17qfao',    // Skeikampen
-  'Z698xZb_Z17q3qg'     // Tons of Rock
+  'Z698xZb_Z16v7eGkFy', 
+  'Z698xZb_Z17q33_',    
+  'Z698xZb_Z17qfao',   
+  'Z698xZb_Z17q3qg'     
 ];
 
 const cityOptions = ['Oslo', 'London', 'Paris', 'Berlin'];
@@ -31,14 +31,14 @@ export default function Home() {
       try {
         const response = await fetch(`http://localhost:3001/event/${id}`);
         const data = await response.json();
-        console.log(`✅ Fant festival med ID ${id}: ${data.name}`);
+        console.log(`Fant resultat med ID: ${id}: ${data.name}`);
         return data;
       } catch (err) {
-        console.error(`❌ Klarte ikke å hente festival med ID ${id}:`, err);
+        console.error(`Fant ikke resultat med ID: ${id}:`, err);
         return null;
       }
     };
-
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all henter flere festivaler med Promise.all
     Promise.all(festivalIDs.map(fetchFestival)).then((results) => {
       setFestivals(results.filter(Boolean));
       setLoadingFestivals(false);
@@ -48,6 +48,7 @@ export default function Home() {
   useEffect(() => {
     const fetchCityEvents = async () => {
       setLoadingCity(true);
+      //https://vite.dev/guide/env-and-mode.html
       try {
         const API_KEY = import.meta.env.VITE_TM_API_KEY;
         const countryCode = cityToCountryCode[selectedCity] || 'NO';
@@ -59,7 +60,7 @@ export default function Home() {
         const uniqueEvents = Array.from(new Map(events.map(e => [e.name, e])).values());
         setCityEvents(uniqueEvents.slice(0, 10));
       } catch (err) {
-        console.error('❌ Klarte ikke å hente by-arrangementer:', err);
+        console.error('Klarte ikke å hente arrangementer:', err);
         setCityEvents([]);
       } finally {
         setLoadingCity(false);
@@ -74,7 +75,7 @@ export default function Home() {
       <h1 className="home-title">Sommerens festivaler!</h1>
 
       {loadingFestivals ? (
-        <p>Laster inn festivaler...</p>
+        <p>Laster inn</p>
       ) : (
         <>
           {festivals.length < 4 && (
@@ -85,6 +86,7 @@ export default function Home() {
           <div className="festival-grid">
             {festivals.map((event, index) => (
               <EventCard
+              //https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key
                 key={event.id || `${event.name}-${index}`}
                 event={event}
                 isWishlisted={false}
@@ -114,7 +116,7 @@ export default function Home() {
         <h2 className="section-title">Hva skjer i {selectedCity}</h2>
 
         {loadingCity ? (
-          <p>Laster inn arrangementer i {selectedCity}...</p>
+          <p>Laster arrangementer i {selectedCity}...</p>
         ) : (
           <div className="festival-grid">
             {cityEvents.map((event, index) => (

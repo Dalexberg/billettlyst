@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+// Løste "undefined" problem med hjelp fra https://stackoverflow.com/questions/71793482/useparams-in-react-router
 import { useParams } from 'react-router-dom';
 import { sanity, urlFor } from '../lib/sanityClient';
 

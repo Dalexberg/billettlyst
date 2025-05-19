@@ -1,7 +1,7 @@
 import './CityEventCard.css';
 
 export default function CityEventCard({ event }) {
-  const date = event.dates?.start?.localDate || 'Ukjent dato';
+  const date = event.dates?.start?.localDate || '';
   const time = event.dates?.start?.localTime || '';
   const venue = event._embedded?.venues?.[0];
 

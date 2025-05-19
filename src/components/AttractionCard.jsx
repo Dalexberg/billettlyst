@@ -1,4 +1,3 @@
-import './AttractionCard.css';
 import { Heart, HeartIcon } from 'lucide-react';
 
 export default function AttractionCard({ attraction, isWishlisted, onToggleWishlist }) {

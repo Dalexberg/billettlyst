@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './Dashboard.css';
 
 export default function Dashboard() {
+  // Hentet inspirasjon fra: https://stackoverflow.com/questions/38423108/using-localstorage-with-react
   const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('username'));
   const [username, setUsername] = useState(localStorage.getItem('username') || '');
   const [user, setUser] = useState(null);
@@ -33,7 +34,7 @@ export default function Dashboard() {
       setUsername(usernameToFetch);
       localStorage.setItem('username', usernameToFetch);
     } else {
-      alert('Ingen brukere med det navnet');
+      alert('Oppgi gyldi brukernavn');
     }
   };
 
@@ -53,6 +54,7 @@ export default function Dashboard() {
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     if (storedUsername && !user) {
+      // https://stackoverflow.com/questions/69364075/how-to-async-fetch-data-in-useeffect
       fetchUser(storedUsername);
     }
   }, []);
@@ -85,12 +87,12 @@ export default function Dashboard() {
       {user && (
         <div className="dashboard-layout">
           <div>
-            <h2>{user.name}</h2>
-            {user.image && <img src={urlFor(user.image).width(200).url()} alt={user.name} />}
+            <h2>{user.name}</h2> 
+            {/* // Basert på: https://stackoverflow.com/questions/74935677/how-to-show-my-image-from-sanity-to-react-app */}
+            {user.image && <img src={urlFor(user.image).width(200).url()} alt={user.name} />} 
             <p>{user.birthdate}</p>
             <p>{user.gender}</p>
           </div>
-
           <div>
             <h2>Venner</h2>
             {friends.map(friend => {

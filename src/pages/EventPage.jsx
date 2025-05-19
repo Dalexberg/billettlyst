@@ -21,7 +21,6 @@ export default function EventPage() {
         const data = await response.json();
         setEvent(data);
 
-        // Hent relaterte events (festivalpass)
         const attractionId = data._embedded?.attractions?.[0]?.id;
         if (attractionId) {
           const res = await fetch(
@@ -32,7 +31,7 @@ export default function EventPage() {
           setRelatedEvents(filtered);
         }
       } catch (error) {
-        console.error("❌ Feil ved henting av event:", error);
+        console.error("Feil", error);
       } finally {
         setLoading(false);
       }
@@ -41,7 +40,7 @@ export default function EventPage() {
     fetchEvent();
   }, [id]);
 
-  if (loading) return <p>Laster inn detaljer...</p>;
+  if (loading) return <p>Laster inn</p>;
   if (!event) return <p>Fant ikke arrangementet.</p>;
 
   const venue = event._embedded?.venues?.[0];
@@ -61,7 +60,6 @@ export default function EventPage() {
 
       <section>
         <h2>Følg oss på sosiale medier:</h2>
-        {/* Her kan du legge til event.externalLinks/facebook osv. */}
       </section>
 
       <section>

@@ -27,7 +27,7 @@ export default function CategoryPage() {
       setEvents(data._embedded?.events || []);
       setVenues(data._embedded?.venues || []);
     } catch (error) {
-      console.error('Feil ved henting av forslag:', error);
+      console.error('Feil', error);
     }
   };
 
@@ -48,7 +48,7 @@ export default function CategoryPage() {
     setVenues([]);
     setEvents(data._embedded?.events || []);
   } catch (error) {
-    console.error('❌ Feil ved filtrert henting:', error);
+    console.error('Feil:', error);
     setEvents([]);
   }
 };
