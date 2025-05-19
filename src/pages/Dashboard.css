@@ -1,0 +1,74 @@
+.dashboard-container {
+  padding: 2rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 300px;
+}
+
+.login-form input {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.login-form button {
+  background-color: black;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+}
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  margin-bottom: 1rem;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.dashboard-layout > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.user-info img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.friend-info img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 5px;
+}
+
+a {
+  color: purple;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+}

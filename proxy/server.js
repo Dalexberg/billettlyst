@@ -7,7 +7,6 @@ app.use(cors());
 
 const API_KEY = 'np0rW3NzhZlG0wDIqJHFkXiW1GmKs3kh';
 
-// Generell søk (f.eks. etter keyword/by/land)
 app.get('/events', async (req, res) => {
   const { keyword = '', city = '', countryCode = '', size = '10' } = req.query;
 
@@ -31,7 +30,6 @@ app.get('/events', async (req, res) => {
   }
 });
 
-// Henting av ett enkelt event via ID
 app.get('/event/:id', async (req, res) => {
   const { id } = req.params;
   const url = `https://app.ticketmaster.com/discovery/v2/events/${id}.json?apikey=${API_KEY}`;
@@ -43,6 +41,30 @@ app.get('/event/:id', async (req, res) => {
   } catch (err) {
     console.error(`Klarte ikke å hente event med ID ${id}:`, err);
     res.status(500).json({ error: 'Feil ved henting av event.' });
+  }
+});
+
+app.get('/suggest', async (req, res) => {
+  const { keyword = '', date = '', countryCode = '', city = '' } = req.query;
+
+  const params = new URLSearchParams({
+    apikey: API_KEY,
+    keyword
+  });
+
+  if (date) params.append('startDateTime', `${date}T00:00:00Z`);
+  if (countryCode) params.append('countryCode', countryCode);
+  if (city) params.append('city', city);
+
+  const url = `https://app.ticketmaster.com/discovery/v2/suggest?${params.toString()}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error('❌ Feil ved henting av forslag:', err);
+    res.status(500).json({ error: 'Noe gikk galt ved henting av forslag.' });
   }
 });
 

@@ -4,6 +4,8 @@ import EventPage from './pages/EventPage'
 import CategoryPage from './pages/CategoryPage'
 import Dashboard from './pages/Dashboard'
 import Header from './components/Header'
+import SanityEventDetails from './pages/SanityEventDetails';
+
 
 export default function App() {
   return (
@@ -14,6 +16,7 @@ export default function App() {
         <Route path="/event/:id" element={<EventPage />} />
         <Route path="/category/:slug" element={<CategoryPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/sanity-event/:id" element={<SanityEventDetails />} />
       </Routes>
     </Router>
   )
