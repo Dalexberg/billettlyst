@@ -70,6 +70,6 @@ Vil du ha en variant som også inkluderer tidligere kjøp på samme måte?
 _____________________________________________________________________________
 Brukt i Dashboard.jsx
 
-Koden skal vise ønskelisten og tidligere kjøp med titel og ID fra events
+Koden skal vise ønskelisten og tidligere kjøp med tittel og ID fra events
 Begrunnelse: 
 For å spare tid og unngå/fikse feil i spørringen. Hjelp med GROQ syntaks.
